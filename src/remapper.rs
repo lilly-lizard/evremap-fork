@@ -164,7 +164,6 @@ impl InputMapper {
                 if input.is_subset(&keys_minus_remapped) {
                     for i in input {
                         keys.remove(i);
-                        keys_minus_remapped.remove(i);
                     }
                     for o in output {
                         keys.insert(o.clone());

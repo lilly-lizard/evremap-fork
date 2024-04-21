@@ -118,7 +118,7 @@ impl InputMapper {
     }
 
     pub fn run_mapper(&mut self) -> Result<()> {
-        log::error!("Going into read loop");
+        log::info!("Going into read loop");
         loop {
             let (status, event) = self
                 .input
@@ -164,13 +164,17 @@ impl InputMapper {
                 if input.is_subset(&keys_minus_remapped) {
                     for i in input {
                         keys.remove(i);
-                        keys_minus_remapped.remove(i);
+                        if !is_modifier(i) {
+                            keys_minus_remapped.remove(i);
+                        }
                     }
                     for o in output {
                         keys.insert(o.clone());
                         // Outputs that apply are not visible as
                         // inputs for later remap rules
-                        keys_minus_remapped.remove(o);
+                        if !is_modifier(o) {
+                            keys_minus_remapped.remove(o);
+                        }
                     }
                 }
             }
